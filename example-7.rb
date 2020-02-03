@@ -94,10 +94,8 @@ def typo(students)
 
   while true do
     # if the info is correct, print out list again
-    if input == "Y"
-      roll_call(students)
-      break
-    elsif input == "N"
+    (roll_call(students); break) if input == "Y"
+    if input == "N"
       puts "Which student's information do you want to correct?"
       student_info = gets.chomp
       students.each_with_index do |student, index|
