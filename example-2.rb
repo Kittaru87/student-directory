@@ -36,7 +36,7 @@ def print_header
   puts "-----------------"
 end
 
-#prints the students number, name and cohort
+# prints the students number, name and cohort
 def print(students)
   students.each_with_index do |student, index|
     puts "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort)"
@@ -49,6 +49,6 @@ end
 
 students = input_students
 print_header
+print(students)
+print_footer(students)
 which_letter(students)
-# print(students)
-# print_footer(students)
