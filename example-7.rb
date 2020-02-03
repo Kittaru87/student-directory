@@ -5,20 +5,18 @@
 # How will you convert it to a symbol? What if the user makes a typo?
 
 def input_students
-  puts "Please enter the name and cohort of the students"
+  puts "Please enter the name and cohort of the students, separated by a comma"
   puts "To finish, just hit return twice"
   # empty array
   students = []
   # while loop for getting information
   while true do
     name = gets.chomp
-    if name == ""
-      break
-    end
+    break if name == ""
     #pulling the cohort from the input and turning into a symbol
     cohort = name.split.last.to_sym
-    #removing cohort from the name
-    name = name.split(' ')[0...-1].join(' ')
+    #removing cohort and comma from the name
+    name = name.split(' ')[0...-1].join(' ').chop
     puts "Enter country of birth"
     country = gets.chomp
       country = "n/a" if country == ""
@@ -95,11 +93,12 @@ def typo(students)
   input = gets.chomp
 
   while true do
+    # if the info is correct, print out list again
     if input == "Y"
       roll_call(students)
       break
     elsif input == "N"
-      puts "What student's information do you want to correct?"
+      puts "Which student's information do you want to correct?"
       student_info = gets.chomp
       students.each_with_index do |student, index|
         if student_info == student[:name]
