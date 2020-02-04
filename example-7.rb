@@ -91,7 +91,6 @@ end
 def typo(students)
   puts "\nIs all the information accurate? Y/N"
   input = gets.chomp
-
   while true do
     # if the info is correct, print out list again
     (roll_call(students); break) if input == "Y"
@@ -99,17 +98,15 @@ def typo(students)
       puts "Which student's information do you want to correct?"
       student_info = gets.chomp
       students.each_with_index do |student, index|
-        if student_info == student[:name]
-          print_single(student)
-          puts "\nWhat category do you want to change - name, cohort, country, height or hobbies?"
-          category_info = gets.chomp
-          student.each do |key, value|
-            if category_info.to_sym == key
-              puts "Enter correction"
-              correction = gets.chomp
-              student[key] = correction
-              print_single(student)
-            end
+        print_single(student) if student_info == student[:name]
+        puts "\nWhat category do you want to change - name, cohort, country, height or hobbies?"
+        category_info = gets.chomp
+        student.each do |key, value|
+          if category_info.to_sym == key
+            puts "Enter correction"
+            correction = gets.chomp
+            student[key] = correction
+            print_single(student)
           end
         end
       end
