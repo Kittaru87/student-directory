@@ -105,7 +105,7 @@ def cohorts(students)
    (print_single(student); cohort_count += 1) if value == input
     end
   end
-  puts "\nOverall, we have #{cohort_count} student in this cohort\n" if cohort_count == 1
+  puts "\nOverall, we have #{cohort_count} great student in this cohort\n" if cohort_count == 1
   puts "\nOverall, we have #{cohort_count} great students in this cohort\n" if cohort_count == 0 || cohort_count > 1
 end
 
