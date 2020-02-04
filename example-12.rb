@@ -72,20 +72,15 @@ end
 def which_letter(students)
   puts "Show students beginning with [input letter]"
   letter = gets.chomp
-
   students.each do |student|
-    if student[:name].start_with?(letter.upcase)
-      puts "#{student[:name]} (#{student[:cohort]} cohort)"
-    end
+    puts "#{student[:name]} (#{student[:cohort]} cohort)" if student[:name].start_with?(letter.upcase)
   end
 end
 
 # prints out student names of length less than 12
 def short_name(students)
   students.each do |student|
-    if student[:name].length < 12
-      puts "#{student[:name]} (#{student[:cohort]} cohort)"
-    end
+    puts "#{student[:name]} (#{student[:cohort]} cohort)" if student[:name].length < 12
   end
 end
 
@@ -152,5 +147,6 @@ def roll_call(students)
 end
 
 students = input_students
+roll_call(students)
 cohorts(students)
 typo($cohort_array)
