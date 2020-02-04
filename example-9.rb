@@ -88,6 +88,7 @@ def short_name(students)
   end
 end
 
+# pulls list of current cohorts, asks for input then lists that cohort's students + count
 def cohorts(students)
   # pulling a list of current cohorts
   cohort_list = []
@@ -100,29 +101,32 @@ def cohorts(students)
   input = gets.chomp
   print_header
   cohort_count = 0
+  # push students in selected cohort into new global array to be called in the typo method
+  $cohort_array = Array.new { [] }
   students.each do |student|
     student.each do |key, value|
-   (print_single(student); cohort_count += 1) if value == input
+   (print_single(student); cohort_count += 1; $cohort_array << student ) if value == input
     end
   end
-  puts "\nOverall, we have #{cohort_count} great student in this cohort\n" if cohort_count == 1
-  puts "\nOverall, we have #{cohort_count} great students in this cohort\n" if cohort_count == 0 || cohort_count > 1
+  puts "Overall, we have #{cohort_count} great student in this cohort\n" if cohort_count == 1
+  puts "Overall, we have #{cohort_count} great students in this cohort\n" if cohort_count == 0 || cohort_count > 1
+  $cohort_array
 end
 
 # typo method
-def typo(students)
+def typo(cohort_array)
   puts "\nIs all the information accurate? Y/N"
   input = gets.chomp
-
   while true do
     # if the info is correct, print out list again
-    (roll_call(students); break) if input == "Y"
+    (print(cohort_array); break) if input == "Y"
     if input == "N"
       puts "Which student's information do you want to correct?"
       student_info = gets.chomp
-      students.each_with_index do |student, index|
-        print_single(student) if student_info == student[:name]
-        puts "\nWhat category do you want to change - name, cohort, country, height or hobbies?"
+      cohort_array.each_with_index do |student, index|
+        if student_info == student[:name]
+        print_single(student)
+        puts "What category do you want to change - name, cohort, country, height or hobbies?"
         category_info = gets.chomp
         student.each do |key, value|
           if category_info.to_sym == key
@@ -131,6 +135,7 @@ def typo(students)
             student[key] = correction
             print_single(student)
           end
+        end
         end
       end
     puts "\nIs all the information accurate? Y/N"
@@ -147,5 +152,5 @@ def roll_call(students)
 end
 
 students = input_students
-roll_call(students)
 cohorts(students)
+typo($cohort_array)
