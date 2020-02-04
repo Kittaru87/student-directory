@@ -27,8 +27,7 @@ def input_students
       hobbies = "n/a" if hobbies == ""
     # add the student hash to the array
     students << {name: name, cohort: cohort, country: country, height: height, hobbies: hobbies}
-    puts "Now we have #{students.count} student" if students.count == 1
-    puts "Now we have #{students.count} students" if students.count == 0 || students.count > 1
+    students.count == 1 ? (puts "Now we have #{students.count} student") : (puts "Now we have #{students.count} students")
     puts "Please enter the next student name and cohort"
     end
    # exits the program if student array is empty else returns the array
