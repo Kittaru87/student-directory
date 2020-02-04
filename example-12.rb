@@ -65,8 +65,7 @@ end
 
 #prints the footer with student count
 def print_footer(students)
-  puts "Overall, we have #{students.count} great student in this cohort\n" if students.count == 1
-  puts "Overall, we have #{students.count} great students in this cohort\n" if students.count == 0 || students.count > 1
+  students.count == 1 ? (puts "Overall, we have #{students.count} great student in this cohort\n") : (puts "Overall, we have #{students.count} great students in this cohort\n")
 end
 
 # print out students beginning with a certain letter
