@@ -72,16 +72,12 @@ end
 def which_letter(students)
   puts "Show students beginning with [input letter]"
   letter = gets.chomp
-  students.each do |student|
-    puts "#{student[:name]} (#{student[:cohort]} cohort)" if student[:name].start_with?(letter.upcase)
-  end
+  students.each {|student| puts "#{student[:name]} (#{student[:cohort]} cohort)" if student[:name].start_with?(letter.upcase)}
 end
 
 # prints out student names of length less than 12
 def short_name(students)
-  students.each do |student|
-    puts "#{student[:name]} (#{student[:cohort]} cohort)" if student[:name].length < 12
-  end
+  students.each { |student| puts "#{student[:name]} (#{student[:cohort]} cohort)" if student[:name].length < 12 }
 end
 
 # pulls list of current cohorts, asks for input then lists that cohort's students + count
