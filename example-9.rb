@@ -95,15 +95,18 @@ def cohorts(students)
   current_cohorts = cohort_list.uniq
   puts "Current cohorts:"
   current_cohorts.each {|cohort| puts cohort}
- # selecting which cohort's students to view
+ # selecting which cohort's students to view + counting number of students
   puts "\nWhich cohort would you like to view?"
   input = gets.chomp
   print_header
+  cohort_count = 0
   students.each do |student|
     student.each do |key, value|
-      print_single(student) if value == input
+   (print_single(student); cohort_count += 1) if value == input
     end
   end
+  puts "\nOverall, we have #{cohort_count} student in this cohort\n" if cohort_count == 1
+  puts "\nOverall, we have #{cohort_count} great students in this cohort\n" if cohort_count == 0 || cohort_count > 1
 end
 
 # typo method
