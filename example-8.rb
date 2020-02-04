@@ -66,6 +66,28 @@ end
 def print_footer(students)
   puts "\n"
   puts "Overall, we have #{students.count} great students".center(50)
+  puts "\n"
+end
+
+# print out students beginning with a certain letter
+def which_letter(students)
+  puts "Show students beginning with [input letter]"
+  letter = gets.chomp
+
+  students.each do |student|
+    if student[:name].start_with?(letter.upcase)
+      puts "#{student[:name]} (#{student[:cohort]} cohort)"
+    end
+  end
+end
+
+# prints out student names of length less than 12
+def short_name(students)
+  students.each do |student|
+    if student[:name].length < 12
+      puts "#{student[:name]} (#{student[:cohort]} cohort)"
+    end
+  end
 end
 
 def cohorts(students)
@@ -75,14 +97,18 @@ def cohorts(students)
   current_cohorts = cohort_list.uniq
   puts "Current cohorts:"
   current_cohorts.each {|cohort| puts cohort}
- # selecting which cohort's students to view
+ # selecting which cohort's students to view + counting number of students
   puts "\nWhich cohort would you like to view?"
   input = gets.chomp
+  print_header
+  cohort_count = 0
   students.each do |student|
     student.each do |key, value|
-      print_single(student) if value == input
+   (print_single(student); cohort_count += 1) if value == input
     end
   end
+  puts "\nOverall, we have #{cohort_count} student in this cohort\n" if cohort_count == 1
+  puts "\nOverall, we have #{cohort_count} great students in this cohort\n" if cohort_count == 0 || cohort_count > 1
 end
 
 # typo method
@@ -97,17 +123,15 @@ def typo(students)
       puts "Which student's information do you want to correct?"
       student_info = gets.chomp
       students.each_with_index do |student, index|
-        if student_info == student[:name]
-          print_single(student)
-          puts "\nWhat category do you want to change - name, cohort, country, height or hobbies?"
-          category_info = gets.chomp
-          student.each do |key, value|
-            if category_info.to_sym == key
-              puts "Enter correction"
-              correction = gets.chomp
-              student[key] = correction
-              print_single(student)
-            end
+        print_single(student) if student_info == student[:name]
+        puts "\nWhat category do you want to change - name, cohort, country, height or hobbies?"
+        category_info = gets.chomp
+        student.each do |key, value|
+          if category_info.to_sym == key
+            puts "Enter correction"
+            correction = gets.chomp
+            student[key] = correction
+            print_single(student)
           end
         end
       end
@@ -126,5 +150,3 @@ end
 
 students = input_students
 cohorts(students)
-# roll_call(students)
-# typo(students)
