@@ -31,8 +31,8 @@ def input_students
     puts "Now we have #{students.count} students" if students.count == 0 || students.count > 1
     puts "Please enter the next student name and cohort"
     end
-   # returns the array of students
-   students
+   # exits the program if student array is empty else returns the array
+   students == [] ? exit : students
 end
 
 #printing the roll-call header
@@ -66,8 +66,8 @@ end
 
 #prints the footer with student count
 def print_footer(students)
-  puts "\nOverall, we have #{students.count} great student in this cohort\n" if students.count == 1
-  puts "\nOverall, we have #{students.count} great students in this cohort\n" if students.count == 0 || students.count > 1
+  puts "Overall, we have #{students.count} great student in this cohort\n" if students.count == 1
+  puts "Overall, we have #{students.count} great students in this cohort\n" if students.count == 0 || students.count > 1
 end
 
 # print out students beginning with a certain letter
