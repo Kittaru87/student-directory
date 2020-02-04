@@ -74,7 +74,14 @@ def cohorts(students)
   current_cohorts = cohort_list.uniq
   puts "Current cohorts:"
   current_cohorts.each {|cohort| puts cohort}
-
+ # selecting which cohort's students to view
+  puts "\nWhich cohort would you like to view?"
+  input = gets.chomp
+  students.each do |student|
+    student.each do |key, value|
+      print_single(student) if value == input
+    end
+  end
 end
 
 # typo method
