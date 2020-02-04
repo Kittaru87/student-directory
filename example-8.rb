@@ -4,7 +4,7 @@
 # iterate over it and only print the students from that cohort.
 
 def input_students
-  puts "Please enter the name and cohort of the students, separated by a comma"
+  puts "Please enter the name and cohort of the student, separated by a comma"
   puts "To finish, just hit return twice"
   # empty array
   students = []
@@ -13,7 +13,7 @@ def input_students
     name = gets.chomp
     break if name == ""
     #pulling the cohort from the input and turning into a symbol
-    cohort = name.split.last.to_sym
+    cohort = name.split.last
     #removing cohort and comma from the name
     name = name.split(' ')[0...-1].join(' ').chop
     puts "Enter country of birth"
@@ -60,6 +60,7 @@ def print_single(student)
   puts "County of birth: #{student[:country]}".center(50)
   puts "Height: #{student[:height]}".center(50)
   puts "Hobbies: #{student[:hobbies]}".center(50)
+  puts "\n"
 end
 
 def print_footer(students)
