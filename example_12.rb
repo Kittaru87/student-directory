@@ -63,18 +63,6 @@ def print_footer(students)
   students.count == 1 ? (puts "Overall, we have #{students.count} great student in this cohort\n") : (puts "Overall, we have #{students.count} great students in this cohort\n")
 end
 
-# print out students beginning with a certain letter
-def which_letter(students)
-  puts "Show students beginning with [input letter]"
-  letter = gets.chomp
-  students.each {|student| puts "#{student[:name]} (#{student[:cohort]} cohort)" if student[:name].start_with?(letter.upcase)}
-end
-
-# prints out student names of length less than 12
-def short_name(students)
-  students.each { |student| puts "#{student[:name]} (#{student[:cohort]} cohort)" if student[:name].length < 12 }
-end
-
 # pulling a list of current cohorts
 def cohort_list(students)
     cohort_list = []

@@ -20,17 +20,6 @@ def input_students
    students
   end
 
-# print out students beginning with a certain letter
-def which_letter(students)
-  puts "Show students beginning with [input letter]"
-  letter = gets.chomp
-
-  students.each do |student|
-    if student[:name].start_with?(letter.upcase)
-      puts "#{student[:name]} (#{student[:cohort]} cohort)"
-    end
-  end
-end
 
 def print_header
   puts "The students of Villains Academy"
@@ -41,7 +30,7 @@ end
 def print(students)
   student_number = 0
   while student_number < students.count do
-    puts students.each do |x| x.values[0]}
+    puts students.each { |x| x.values[0]}
     student_number += students.count
   end
 end
@@ -50,14 +39,6 @@ def print_footer(students)
   puts "Overall, we have #{students.count} great students"
 end
 
-# prints out student names of length less than 12
-def short_name(students)
-  students.each do |student|
-    if student[:name].length < 12
-      puts "#{student[:name]} (#{student[:cohort]} cohort)"
-    end
-  end
-end
 
 students = input_students
 print_header

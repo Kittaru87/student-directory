@@ -107,36 +107,24 @@ def print_footer()
   @students.count == 1 ? (puts "Overall, we have #{@students.count} great student\n") : (puts "Overall, we have #{@students.count} great students\n")
 end
 
-# print out students beginning with a certain letter
-def which_letter()
-  puts "Show students beginning with [input letter]"
-  letter = gets.chomp
-  @students.each {|student| puts "#{student[:name]} (#{student[:cohort]} cohort)" if student[:name].start_with?(letter.upcase)}
+# pulling a list of current cohorts
+def cohort_list(students)
+    cohort_list = []
+    students.each {|student| cohort_list << student[:cohort]}
+    current_cohorts = cohort_list.uniq
+    puts "Current cohorts:"
+    current_cohorts.each {|cohort| puts cohort}
 end
 
-# prints out student names of length less than 12
-def short_name()
-  @students.each { |student| puts "#{student[:name]} (#{student[:cohort]} cohort)" if student[:name].length < 12 }
-end
-
-# pulls list of current cohorts, asks for input then lists that cohort's students + count
-def cohorts()
-  # pulling a list of current cohorts
-  cohort_list = []
-  @students.each {|student| cohort_list << student[:cohort]}
-  current_cohorts = cohort_list.uniq
-  puts "Current cohorts:"
-  current_cohorts.each {|cohort| puts cohort}
- # selecting which cohort's students to view + counting number of students
+# showing the students in a selected cohort
+def students_in_cohort(students)
   puts "\nWhich cohort would you like to view?"
   input = gets.chomp
-  # push students in selected cohort into new global array to be called in the typo method
   cohort_count = 0
   cohort_array = Array.new { [] }
-  @students.each do |student|
+  students.each do |student|
     student.each { |key, value| (cohort_count += 1; cohort_array << student ) if value == input }
   end
-  # printing out the full list of students in the selected cohort
   roll_call(cohort_array)
   cohort_array
 end

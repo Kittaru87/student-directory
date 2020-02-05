@@ -23,12 +23,7 @@ def input_students
 def which_letter(students)
   puts "Show students beginning with [input letter]"
   letter = gets.chomp
-
-  students.each do |student|
-    if student[:name].start_with?(letter.upcase)
-      puts "#{student[:name]} (#{student[:cohort]} cohort)"
-    end
-  end
+  students.each {|student| puts "#{student[:name]} (#{student[:cohort]} cohort)" if student[:name].start_with?(letter.upcase)}
 end
 
 def print_header
@@ -36,12 +31,6 @@ def print_header
   puts "-----------------"
 end
 
-# prints the students number, name and cohort
-def print(students)
-  students.each_with_index do |student, index|
-    puts "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort)"
-  end
-end
 
 def print_footer(students)
   puts "Overall, we have #{students.count} great students"
