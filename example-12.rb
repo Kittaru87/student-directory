@@ -75,26 +75,24 @@ def short_name(students)
   students.each { |student| puts "#{student[:name]} (#{student[:cohort]} cohort)" if student[:name].length < 12 }
 end
 
-# pulls list of current cohorts, asks for input then lists that cohort's students + count
-def cohorts(students)
-  # pulling a list of current cohorts
-  cohort_list = []
-  students.each {|student| cohort_list << student[:cohort]}
-  current_cohorts = cohort_list.uniq
-  puts "Current cohorts:"
-  current_cohorts.each {|cohort| puts cohort}
- # selecting which cohort's students to view + counting number of students
+# pulling a list of current cohorts
+def cohort_list(students)
+    cohort_list = []
+    students.each {|student| cohort_list << student[:cohort]}
+    current_cohorts = cohort_list.uniq
+    puts "Current cohorts:"
+    current_cohorts.each {|cohort| puts cohort}
+end
+
+# showing the students in a selected cohort
+def students_in_cohort(students)
   puts "\nWhich cohort would you like to view?"
   input = gets.chomp
-  # push students in selected cohort into new global array to be called in the typo method
   cohort_count = 0
   cohort_array = Array.new { [] }
   students.each do |student|
-    student.each do |key, value|
-   (cohort_count += 1; cohort_array << student ) if value == input
-    end
+    student.each { |key, value| (cohort_count += 1; cohort_array << student ) if value == input }
   end
-  # printing out the full list of students in the selected cohort
   roll_call(cohort_array)
   cohort_array
 end
@@ -138,5 +136,6 @@ def roll_call(students)
 end
 
 students = input_students
-cohorts = cohorts(students)
+cohort_list(students)
+cohorts = students_in_cohort(students)
 typo(cohorts)
