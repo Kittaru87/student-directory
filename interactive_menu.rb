@@ -4,8 +4,12 @@
 #   # 3. do what the user has asked
 #   # 4. repeat from step 1
 # end
-# getting student information
+# attempting to incorporate the cohorts, plus extra information into the interactive_menu
 
+
+@students = []
+
+# getting student information
 def input_students
   puts "Please enter the name and cohort of the student, separated by a comma"
   puts "To finish, just hit return twice"
@@ -13,20 +17,20 @@ def input_students
   students = []
   # while loop for getting information
   while true do
-    name = gets.chomp
+    name = STDIN.gets.chomp
     break if name == ""
     #pulling the cohort from the input and turning into a symbol
     cohort = name.split.last
     #removing cohort and comma from the name
     name = name.split(' ')[0...-1].join(' ').chop
     puts "Enter country of birth"
-    country = gets.chomp
+    country = STDIN.gets.chomp
       country = "n/a" if country == ""
     puts "Enter height"
-    height = gets.chomp
+    height = STDIN.gets.chomp
       height = "n/a" if height == ""
     puts "Enter hobbies"
-    hobbies = gets.chomp
+    hobbies = STDIN.gets.chomp
       hobbies = "n/a" if hobbies == ""
     # add the student hash to the array
     students << {name: name, cohort: cohort, country: country, height: height, hobbies: hobbies}
@@ -37,13 +41,50 @@ def input_students
    students == [] ? exit : students
 end
 
-#printing the roll-call header
+def save_students
+  # open file for writing
+  file = File.open("students-examples.csv", "w")
+  # iterative over the array of students
+  @students.each do |student|
+    student_data = [student[:name], student[:cohort], student[:country], student[:height], student[:hobbies]]
+    csv_line = student_data.join(",")
+    # writes to the file and not on the screen
+    file.puts csv_line
+  end
+  file.close
+end
+
+# loading student information from csv file
+def load_students(filename = "students-examples.csv")
+  file = File.open("students-examples.csv", "r")
+  # define instance variable or get a undefined method for nil class error
+  file.readlines.each do |line|
+    name, cohort, country, height, hobbies = line.chomp.split(",")
+    @students << {name: name, cohort: cohort, country: country, height: height, hobbies: hobbies}
+  end
+  file.close
+end
+
+# auto loading a csv file data
+def try_load_students
+  filename = ARGV.first # first argument from the command line
+  return if filename.nil? # get out of the method if it isn't given
+  if File.exists?(filename)
+    load_students(filename)
+    puts "Loaded #{@students.count} from #{filename}"
+  else
+    puts "Sorry, #{filename} doesn't exist."
+    exit
+  end
+end
+
+# printing the roll-call header
 def print_header
   puts "The students of Villains Academy".center(50)
   puts "-----------------".center(50)
 end
 
-#prints a single student's details with a centered layour
+# prints a single student's details with a centered layour
 def print_single(student)
   puts "#{student[:name]}".center(50)
   puts "(#{student[:cohort]} cohort)".center(50)
@@ -61,7 +102,7 @@ def print_student_list
   end
 end
 
-#prints the footer with student count
+# prints the footer with student count
 def print_footer()
   @students.count == 1 ? (puts "Overall, we have #{@students.count} great student\n") : (puts "Overall, we have #{@students.count} great students\n")
 end
@@ -142,16 +183,23 @@ end
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
+  puts "3. Save the list to students-examples.csv"
+  puts "4. Load the list from students-examples.csv"
   puts "9. Exit" # 9 because we'll be adding more items
 end
 
 # case statement method
 def process(selection)
+  @students
   case selection
   when "1"
-    input_students
+    @students = input_students
   when "2"
     roll_call
+  when "3"
+    save_students
+  when "4"
+    load_students
   when "9"
     exit
   else
@@ -160,13 +208,13 @@ def process(selection)
 end
 
 def interactive_menu
-  @students = []
   loop do
     print_menu
-    process(gets.chomp)
+    process(STDIN.gets.chomp)
   end
 end
 
+try_load_students
 interactive_menu
-cohorts = cohorts(@students)
-typo(cohorts)
+#cohorts = cohorts(@students)
+#typo(cohorts)
