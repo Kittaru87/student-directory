@@ -19,6 +19,7 @@ example_10.rb = discusses other methods of chomping off the last character after
 example_11.rb = correcting the typos from the code
 example_12.rb = adding an exit if the input is empty + refactoring of code
 example_13.rb = adding an interactive menu for input/printing students, saving, loading and preloading options
+example_14.rb = method for adding student data to @students array
 ```
 ```
 '''
