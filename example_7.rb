@@ -35,17 +35,6 @@ def input_students
   students
 end
 
-# print out students beginning with a certain letter
-def which_letter(students)
-  puts "Show students beginning with [input letter]"
-  letter = gets.chomp
-  students.each do |student|
-    if student[:name].start_with?(letter.upcase)
-      puts "#{student[:name]} (#{student[:cohort]} cohort)"
-    end
-  end
-end
-
 def print_header
   puts "The students of Villains Academy".center(50)
   puts "-----------------".center(50)
@@ -73,14 +62,6 @@ def print_footer(students)
   puts "Overall, we have #{students.count} great students".center(50)
 end
 
-# prints out student names of length less than 12
-def short_name(students)
-  students.each do |student|
-    if student[:name].length < 12
-      puts "#{student[:name]} (#{student[:cohort]} cohort)"
-    end
-  end
-end
 
 # typo method
 def typo(students)
