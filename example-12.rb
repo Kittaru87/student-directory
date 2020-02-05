@@ -40,19 +40,6 @@ def print_header
   puts "-----------------".center(50)
 end
 
-# prints all the students details with a centered layout
-def print(students)
-  students.each_with_index do |student, index|
-    puts "#{index+1}".center(50)
-    puts "#{student[:name]}".center(50)
-    puts "(#{student[:cohort]} cohort)".center(50)
-    puts "County of birth: #{student[:country]}".center(50)
-    puts "Height: #{student[:height]}".center(50)
-    puts "Hobbies: #{student[:hobbies]}".center(50)
-    puts "\n"
-  end
-end
-
 #prints a single student's details with a centered layour
 def print_single(student)
   puts "#{student[:name]}".center(50)
@@ -61,6 +48,14 @@ def print_single(student)
   puts "Height: #{student[:height]}".center(50)
   puts "Hobbies: #{student[:hobbies]}".center(50)
   puts "\n"
+end
+
+# prints all the students details with a centered layout
+def print(students)
+  students.each_with_index do |student, index|
+    puts "#{index+1}".center(50)
+    print_single(student)
+  end
 end
 
 #prints the footer with student count
@@ -143,6 +138,5 @@ def roll_call(students)
 end
 
 students = input_students
-roll_call(students)
 cohorts = cohorts(students)
 typo(cohorts)
