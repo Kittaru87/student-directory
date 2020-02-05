@@ -54,35 +54,35 @@ def print_single(student)
 end
 
 # prints all the students details with a centered layout
-def print(students)
-  students.each_with_index do |student, index|
+def print()
+  @students.each_with_index do |student, index|
     puts "#{index+1}".center(50)
     print_single(student)
   end
 end
 
 #prints the footer with student count
-def print_footer(students)
-  students.count == 1 ? (puts "Overall, we have #{students.count} great student\n") : (puts "Overall, we have #{students.count} great students\n")
+def print_footer()
+  @students.count == 1 ? (puts "Overall, we have #{@students.count} great student\n") : (puts "Overall, we have #{@students.count} great students\n")
 end
 
 # print out students beginning with a certain letter
-def which_letter(students)
+def which_letter()
   puts "Show students beginning with [input letter]"
   letter = gets.chomp
-  students.each {|student| puts "#{student[:name]} (#{student[:cohort]} cohort)" if student[:name].start_with?(letter.upcase)}
+  @students.each {|student| puts "#{student[:name]} (#{student[:cohort]} cohort)" if student[:name].start_with?(letter.upcase)}
 end
 
 # prints out student names of length less than 12
-def short_name(students)
-  students.each { |student| puts "#{student[:name]} (#{student[:cohort]} cohort)" if student[:name].length < 12 }
+def short_name()
+  @students.each { |student| puts "#{student[:name]} (#{student[:cohort]} cohort)" if student[:name].length < 12 }
 end
 
 # pulls list of current cohorts, asks for input then lists that cohort's students + count
-def cohorts(students)
+def cohorts()
   # pulling a list of current cohorts
   cohort_list = []
-  students.each {|student| cohort_list << student[:cohort]}
+  @students.each {|student| cohort_list << student[:cohort]}
   current_cohorts = cohort_list.uniq
   puts "Current cohorts:"
   current_cohorts.each {|cohort| puts cohort}
@@ -92,7 +92,7 @@ def cohorts(students)
   # push students in selected cohort into new global array to be called in the typo method
   cohort_count = 0
   cohort_array = Array.new { [] }
-  students.each do |student|
+  @students.each do |student|
     student.each { |key, value| (cohort_count += 1; cohort_array << student ) if value == input }
   end
   # printing out the full list of students in the selected cohort
@@ -132,24 +132,43 @@ def typo(cohorts)
 end
 
 # printing the heading/student list and footer in one method
-def roll_call(students)
+def roll_call()
   print_header
-  print(students)
-  print_footer(students)
+  print()
+  print_footer()
+end
+
+#prints the interactive_menu
+def print_menu
+  puts "1. Input the students"
+  puts "2. Show the students"
+  puts "9. Exit" # 9 because we'll be adding more items
+end
+
+# case statement method
+def process(selection)
+  case selection
+  when "1"
+    input_students
+  when "2"
+    roll_call
+  when "9"
+    exit
+  else
+    puts "I don't know what you mean, try again"
+  end
 end
 
 def interactive_menu
-  students = []
+  @students = []
   loop do
-    puts "1. Input the students"
-    puts "2. Show the students"
-    puts "9. Exit"
+    print_menu
     selection = gets.chomp
     case selection
     when "1"
-      students = input_students
+      @students = input_students
     when "2"
-      roll_call(students)
+      roll_call
     when "9"
       exit
     else
@@ -159,5 +178,5 @@ def interactive_menu
 end
 
 interactive_menu
-cohorts = cohorts(students)
+cohorts = cohorts(@students)
 typo(cohorts)
