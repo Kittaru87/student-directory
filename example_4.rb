@@ -30,7 +30,7 @@ end
 def print(students)
   student_number = 0
   while student_number < students.count do
-    puts students.each { |x| x.values[0]}
+    students.each { |student| puts student.values[0]}
     student_number += students.count
   end
 end
