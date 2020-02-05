@@ -93,28 +93,28 @@ def cohorts(students)
   input = gets.chomp
   # push students in selected cohort into new global array to be called in the typo method
   cohort_count = 0
-  $cohort_array = Array.new { [] }
+  cohort_array = Array.new { [] }
   students.each do |student|
     student.each do |key, value|
-   (cohort_count += 1; $cohort_array << student ) if value == input
+   (cohort_count += 1; cohort_array << student ) if value == input
     end
   end
   # printing out the full list of students in the selected cohort
-  roll_call($cohort_array)
-  $cohort_array
+  roll_call(cohort_array)
+  cohort_array
 end
 
 # typo method
-def typo(cohort_array)
+def typo(cohorts)
   puts "\nIs all the information accurate? Y/N"
   input = gets.chomp
   while true do
     # if the info is correct, print out list again
-    (roll_call($cohort_array); break) if input == "Y"
+    (roll_call(cohorts); break) if input == "Y"
     if input == "N"
       puts "Which student's information do you want to correct?"
       student_info = gets.chomp
-      cohort_array.each_with_index do |student, index|
+      cohorts.each_with_index do |student, index|
         if student_info == student[:name]
         print_single(student)
         puts "What category do you want to change - name, cohort, country, height or hobbies?"
@@ -144,5 +144,5 @@ end
 
 students = input_students
 roll_call(students)
-cohorts(students)
-typo($cohort_array)
+cohorts = cohorts(students)
+typo(cohorts)
