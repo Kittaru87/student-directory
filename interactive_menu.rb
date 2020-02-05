@@ -54,7 +54,7 @@ def print_single(student)
 end
 
 # prints all the students details with a centered layout
-def print()
+def print_student_list
   @students.each_with_index do |student, index|
     puts "#{index+1}".center(50)
     print_single(student)
@@ -134,7 +134,7 @@ end
 # printing the heading/student list and footer in one method
 def roll_call()
   print_header
-  print()
+  print_student_list
   print_footer()
 end
 
@@ -163,17 +163,7 @@ def interactive_menu
   @students = []
   loop do
     print_menu
-    selection = gets.chomp
-    case selection
-    when "1"
-      @students = input_students
-    when "2"
-      roll_call
-    when "9"
-      exit
-    else
-      puts "I don't know what you meant, try again"
-    end
+    process(gets.chomp)
   end
 end
 
