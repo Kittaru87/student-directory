@@ -16,9 +16,9 @@ example_7.rb = asks for both name and cohort together; puts a default value if t
 example_8.rb = prints the users by cohort once a particular cohort has been selected; typo method changed to take this into account
 example_9.rb = adds singular or plural answers to number of students
 example_10.rb = discusses other methods of chomping off the last character after getting input
-typos.rb = correcting the typos from the code
+example_11.rb = correcting the typos from the code
 example_12.rb = adding an exit if the input is empty + refactoring of code
-interactive_menu.rb = adding an interactive menu for input/printing students
+example_13.rb = adding an interactive menu for input/printing students, saving, loading and preloading options
 ```
 ```
 '''
