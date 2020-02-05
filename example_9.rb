@@ -43,7 +43,7 @@ end
 def print(students)
   students.each_with_index do |student, index|
     puts "#{index+1}".center(50)
-    print_single(students)
+    print_single(student)
   end
 end
 
@@ -57,11 +57,11 @@ def print_single(student)
   puts "\n"
 end
 
+#prints the footer with student count
 def print_footer(students)
-  puts "\nOverall, we have #{students.count} great student\n" if students.count == 1
-  puts "\nOverall, we have #{students.count} great students\n" if students.count == 0 || students.count > 1
+  puts "Overall, we have #{students.count} great student\n" if students.count == 1
+  puts "Overall, we have #{students.count} great students\n" if students.count == 0 || students.count > 1
 end
-
 
 # pulling a list of current cohorts
 def cohort_list(students)
@@ -115,6 +115,7 @@ def typo(cohorts)
     end
   end
 end
+
 
 # printing the heading/student list and footer in one method
 def roll_call(students)
