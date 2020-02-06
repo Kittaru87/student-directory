@@ -9,7 +9,7 @@ def question(string)
   return "n/a" if reply == ""
   return reply
 end
-#  
+# input student info
 def input_students
   students = []
   while true do
@@ -67,7 +67,7 @@ end
 
 # showing the students in a selected cohort
 def students_in_cohort(students)
-  input = question("\nWhich cohort would you like to view?")
+  input = question("Which cohort would you like to view?")
   cohort_count = 0
   cohort_array = Array.new { [] }
   students.each do |student|
@@ -79,7 +79,7 @@ end
 
 # typo method
 def typo(cohorts)
-  input = question("\nIs all the information accurate? Y/N")
+  input = question("Is all the information accurate? Y/N")
   while true do
     # if the info is correct, print out list again
     (roll_call(cohorts); break) if input == "Y"
