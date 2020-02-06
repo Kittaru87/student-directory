@@ -34,51 +34,15 @@ end
 def print(students)
   students.each_with_index do |student, index|
     puts "#{index+1}".center(50)
-    print_single(student)
+    puts "#{student[:name]}".center(50)
+    puts "(#{student[:cohort]} cohort)".center(50)
   end
-end
-
-#prints a single student's details with a centered layour
-def print_single(student)
-  puts "#{student[:name]}".center(50)
-  puts "(#{student[:cohort]} cohort)".center(50)
 end
 
 #prints the footer with student count
 def print_footer(students)
   puts "Overall, we have #{students.count} great student\n" if students.count == 1
   puts "Overall, we have #{students.count} great students\n" if students.count == 0 || students.count > 1
-end
-
-
-# typo method
-def typo(students)
-  puts "\nIs all the information accurate? Y/N"
-  input = gets.chomp
-  while true do
-    # if the info is correct, print out list again
-    (roll_call(students); break) if input == "Y"
-    if input == "N"
-      puts "Which student's information do you want to correct?"
-      student_info = gets.chomp
-      students.each_with_index do |student, index|
-        if student_info == student[:name]
-          print_single(student)
-          puts "\nWhat category do you want to change?"
-          category_info = gets.chomp
-          student.each do |key, value|
-            if category_info.to_sym == key
-              puts "Enter correction"
-              correction = gets.chomp
-              student[key] = correction
-            end
-          end
-        end
-      end
-    puts "\nIs all the information accurate? Y/N"
-    input = gets.chomp
-    end
-  end
 end
 
 
@@ -91,4 +55,3 @@ end
 
 students = input_students
 roll_call(students)
-typo(students)
