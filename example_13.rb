@@ -9,33 +9,23 @@
 
 @students = []
 
-# getting student information
+# question method
+def question(string)
+  puts string
+  reply = STDIN.gets.chomp()
+  return "n/a" if reply == ""
+  return reply
+end
+
 def input_students
-  puts "Please enter the name and cohort of the student, separated by a comma"
-  puts "To finish, just hit return twice"
-  # empty array
   students = []
-  # while loop for getting information
   while true do
-    name = STDIN.gets.chomp
-    break if name == ""
-    #pulling the cohort from the input and turning into a symbol
-    cohort = name.split.last
-    #removing cohort and comma from the name
-    name = name.split(' ')[0...-1].join(' ').chop
-    puts "Enter country of birth"
-    country = STDIN.gets.chomp
-      country = "n/a" if country == ""
-    puts "Enter height"
-    height = STDIN.gets.chomp
-      height = "n/a" if height == ""
-    puts "Enter hobbies"
-    hobbies = STDIN.gets.chomp
-      hobbies = "n/a" if hobbies == ""
+    name = question("Please enter the name\nTo finish, just hit return twice")
+    break if name == "n/a"
+    cohort = question("Enter cohort")
     # add the student hash to the array
-    students << {name: name, cohort: cohort, country: country, height: height, hobbies: hobbies}
+    students << {name: name, cohort: cohort}
     students.count == 1 ? (puts "Now we have #{students.count} student") : (puts "Now we have #{students.count} students")
-    puts "Please enter the next student name and cohort"
     end
    # exits the program if student array is empty else returns the array
    students == [] ? exit : students
@@ -46,7 +36,7 @@ def save_students
   file = File.open("students-examples.csv", "w")
   # iterative over the array of students
   @students.each do |student|
-    student_data = [student[:name], student[:cohort], student[:country], student[:height], student[:hobbies]]
+    student_data = [student[:name], student[:cohort]]
     csv_line = student_data.join(",")
     # writes to the file and not on the screen
     file.puts csv_line
@@ -59,8 +49,8 @@ def load_students(filename = "students-examples.csv")
   file = File.open("students-examples.csv", "r")
   # define instance variable or get a undefined method for nil class error
   file.readlines.each do |line|
-    name, cohort, country, height, hobbies = line.chomp.split(",")
-    @students << {name: name, cohort: cohort, country: country, height: height, hobbies: hobbies}
+    name, cohort = line.chomp.split(",")
+    @students << {name: name, cohort: cohort}
   end
   file.close
 end
@@ -84,80 +74,18 @@ def print_header
   puts "-----------------".center(50)
 end
 
-# prints a single student's details with a centered layour
-def print_single(student)
-  puts "#{student[:name]}".center(50)
-  puts "(#{student[:cohort]} cohort)".center(50)
-  puts "County of birth: #{student[:country]}".center(50)
-  puts "Height: #{student[:height]}".center(50)
-  puts "Hobbies: #{student[:hobbies]}".center(50)
-  puts "\n"
-end
-
 # prints all the students details with a centered layout
 def print_student_list
   @students.each_with_index do |student, index|
     puts "#{index+1}".center(50)
-    print_single(student)
+    puts "#{student[:name]}".center(50)
+    puts "(#{student[:cohort]} cohort)".center(50)
   end
 end
 
 # prints the footer with student count
 def print_footer()
   @students.count == 1 ? (puts "Overall, we have #{@students.count} great student\n") : (puts "Overall, we have #{@students.count} great students\n")
-end
-
-# pulling a list of current cohorts
-def cohort_list(students)
-    cohort_list = []
-    students.each {|student| cohort_list << student[:cohort]}
-    current_cohorts = cohort_list.uniq
-    puts "Current cohorts:"
-    current_cohorts.each {|cohort| puts cohort}
-end
-
-# showing the students in a selected cohort
-def students_in_cohort(students)
-  puts "\nWhich cohort would you like to view?"
-  input = gets.chomp
-  cohort_count = 0
-  cohort_array = Array.new { [] }
-  students.each do |student|
-    student.each { |key, value| (cohort_count += 1; cohort_array << student ) if value == input }
-  end
-  roll_call(cohort_array)
-  cohort_array
-end
-
-# typo method
-def typo(cohorts)
-  puts "\nIs all the information accurate? Y/N"
-  input = gets.chomp
-  while true do
-    # if the info is correct, print out list again
-    (roll_call(cohorts); break) if input == "Y"
-    if input == "N"
-      puts "Which student's information do you want to correct?"
-      student_info = gets.chomp
-      cohorts.each_with_index do |student, index|
-        if student_info == student[:name]
-        print_single(student)
-        puts "What category do you want to change - name, cohort, country, height or hobbies?"
-        category_info = gets.chomp
-        student.each do |key, value|
-          if category_info.to_sym == key
-            puts "Enter correction"
-            correction = gets.chomp
-            student[key] = correction
-            print_single(student)
-          end
-        end
-        end
-      end
-    puts "\nIs all the information accurate? Y/N"
-    input = gets.chomp
-    end
-  end
 end
 
 # printing the heading/student list and footer in one method
@@ -180,16 +108,11 @@ end
 def process(selection)
   @students
   case selection
-  when "1"
-    @students = input_students
-  when "2"
-    roll_call
-  when "3"
-    save_students
-  when "4"
-    load_students
-  when "9"
-    exit
+  when "1" then @students = input_students
+  when "2" then roll_call
+  when "3" then save_students
+  when "4" then load_students
+  when "9" then exit
   else
     puts "I don't know what you mean, try again"
   end
@@ -204,5 +127,3 @@ end
 
 try_load_students
 interactive_menu
-#cohorts = cohorts(@students)
-#typo(cohorts)
