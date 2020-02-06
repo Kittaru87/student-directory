@@ -3,8 +3,15 @@
 # How can you use an if statement (Control Flow) to only print the list if there is at least one student in there?
 
 # getting student information
+def question(string)
+  puts string
+  reply = gets.chomp()
+  return "n/a" if reply == ""
+  return reply
+end
+
 def input_students
-  puts "Please enter the name and cohort of the student, separated by a comma"
+  puts "Please enter the name"
   puts "To finish, just hit return twice"
   # empty array
   students = []
@@ -12,19 +19,10 @@ def input_students
   while true do
     name = gets.chomp
     break if name == ""
-    #pulling the cohort from the input and turning into a symbol
-    cohort = name.split.last
-    #removing cohort and comma from the name
-    name = name.split(' ')[0...-1].join(' ').chop
-    puts "Enter country of birth"
-    country = gets.chomp
-      country = "n/a" if country == ""
-    puts "Enter height"
-    height = gets.chomp
-      height = "n/a" if height == ""
-    puts "Enter hobbies"
-    hobbies = gets.chomp
-      hobbies = "n/a" if hobbies == ""
+    cohort = question("Enter cohort")
+    country = question("Enter country of birth")
+    height = question("Enter height")
+    hobbies = question("Enter hobbies")
     # add the student hash to the array
     students << {name: name, cohort: cohort, country: country, height: height, hobbies: hobbies}
     students.count == 1 ? (puts "Now we have #{students.count} student") : (puts "Now we have #{students.count} students")
@@ -74,8 +72,7 @@ end
 
 # showing the students in a selected cohort
 def students_in_cohort(students)
-  puts "\nWhich cohort would you like to view?"
-  input = gets.chomp
+  input = question("\nWhich cohort would you like to view?")
   cohort_count = 0
   cohort_array = Array.new { [] }
   students.each do |student|
@@ -87,31 +84,26 @@ end
 
 # typo method
 def typo(cohorts)
-  puts "\nIs all the information accurate? Y/N"
-  input = gets.chomp
+  input = question("\nIs all the information accurate? Y/N")
   while true do
     # if the info is correct, print out list again
     (roll_call(cohorts); break) if input == "Y"
     if input == "N"
-      puts "Which student's information do you want to correct?"
-      student_info = gets.chomp
+      student_info = question("Which student's information do you want to correct?")
       cohorts.each_with_index do |student, index|
         if student_info == student[:name]
         print_single(student)
-        puts "What category do you want to change - name, cohort, country, height or hobbies?"
-        category_info = gets.chomp
+        category_info = question("What category do you want to change - name, cohort, country, height or hobbies?")
         student.each do |key, value|
           if category_info.to_sym == key
-            puts "Enter correction"
-            correction = gets.chomp
+            correction = question("Enter correction")
             student[key] = correction
             print_single(student)
           end
         end
         end
       end
-    puts "\nIs all the information accurate? Y/N"
-    input = gets.chomp
+    input = question("\nIs all the information accurate? Y/N")
     end
   end
 end
