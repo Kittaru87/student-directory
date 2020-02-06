@@ -2,23 +2,19 @@
 # It will try to print an empty list.
 # How can you use an if statement (Control Flow) to only print the list if there is at least one student in there?
 
-# getting student information
+# question method
 def question(string)
   puts string
   reply = gets.chomp()
   return "n/a" if reply == ""
   return reply
 end
-
+#  
 def input_students
-  puts "Please enter the name"
-  puts "To finish, just hit return twice"
-  # empty array
   students = []
-  # while loop for getting information
   while true do
-    name = gets.chomp
-    break if name == ""
+    name = question("Please enter the name\nTo finish, just hit return twice")
+    break if name == "n/a"
     cohort = question("Enter cohort")
     country = question("Enter country of birth")
     height = question("Enter height")
@@ -26,7 +22,6 @@ def input_students
     # add the student hash to the array
     students << {name: name, cohort: cohort, country: country, height: height, hobbies: hobbies}
     students.count == 1 ? (puts "Now we have #{students.count} student") : (puts "Now we have #{students.count} students")
-    puts "Please enter the next student name and cohort"
     end
    # exits the program if student array is empty else returns the array
    students == [] ? exit : students
