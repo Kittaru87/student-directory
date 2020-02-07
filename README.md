@@ -26,7 +26,10 @@ ruby directory.rb
 * **example_15.rb** = loads students.csv by default if no file given at start-up
 * **example_16.rb** = refactoring
 * **example_17.rb** = feedback message for the user when selecting an option
-* **example_18.rb** = asking for user input when saving and loading student files (resetting default load file code)
+* **example_18.rb** = asking for user input when saving and loading student files
+* **example_19.rb** = explicit closing of files
+* **example_20.rb** = using the CSV library instead of working directly with the files
+* **example_21.rb** = short program that reads its own source code and prints the currently executed file on screen
 ```
 ```
 '''
