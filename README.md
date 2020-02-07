@@ -25,7 +25,8 @@ ruby directory.rb
 * **example_14.rb** = method for adding student data to students array
 * **example_15.rb** = loads students.csv by default if no file given at start-up
 * **example_16.rb** = refactoring
-* **example-17.rb** = feedback message for the user when selecting an option
+* **example_17.rb** = feedback message for the user when selecting an option
+* **example_18.rb** = asking for user input when saving and loading student files (resetting default load file code)
 ```
 ```
 '''
