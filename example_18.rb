@@ -75,10 +75,11 @@ def save_students
 end
 
 # loading student information from any file - the default being students.csv
-def load_students
+def load_students(filename = "students.csv")
   puts "Which file would you like to load?"
   filename = gets.chomp
-  filename = "students.csv" if filename == "" || !File.exist?(filename)
+  filename = "students.csv" if filename.empty?
+  (puts "this file does not exist\nWhich file would you like to load?"; filename = gets.chomp) while !File.exist?(filename)
   file = File.open(filename, "r")
   #refactored this each method to go onto one line
   file.readlines.each {|line| (name, cohort = line.chomp.split(","); student_data(name))}
@@ -88,10 +89,10 @@ end
 
 def try_load_students
   filename = ARGV.first # first argument from the command line
-  filename = "students.csv" if filename.nil? || !File.exist?(filename) # get out of the method if it isn't given
+  filename = "students.csv" if filename.nil? # get out of the method if it isn't given
   #refactoring this if/else statement
   File.exists?(filename) ? (load_students(filename); puts "Loaded #{@students.count} from #{filename}") : (puts "Sorry, #{filename} doesn't exist."; exit)
 end
 
-#try_load_students
+# try_load_students
 interactive_menu
