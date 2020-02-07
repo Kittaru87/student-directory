@@ -36,16 +36,21 @@ def process(selection)
   end
 end
 
+# question method
+def question(string)
+  puts string
+  reply = STDIN.gets.chomp
+  return "n/a" if reply == ""
+  return reply
+end
+
 def input_students
-  puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
   while true do
-    name = STDIN.gets.chomp
-    break if name.empty?
-    puts "Please enter a cohort"
-    cohort = STDIN.gets.chomp
+    name = question("Please enter the names of the students\nTo finish, just hit return twice")
+    break if name == "n/a"
+    cohort = question("Please enter a cohort")
     student_data(name, cohort)
-      students.count == 1 ? (puts "Now we have #{students.count} student") : (puts "Now we have #{students.count} students")
+      @students.count == 1 ? (puts "Now we have #{@students.count} student") : (puts "Now we have #{@students.count} students")
   end
 end
 
@@ -59,14 +64,14 @@ def roll_call
   puts "The students of Villains Academy".center(50)
   puts "-------------".center(50)
   @students.each { |student| puts "#{student[:name]} (#{student[:cohort]} cohort)".center(50)}
-  @students.count == 1 ? (puts "Overall, we have #{@students.count} great student\n") : (puts "Overall, we have #{@students.count} great students\n")
+  @students.count == 1 ? (puts "Overall, we have #{@students.count} great student") : (puts "Overall, we have #{@students.count} great students")
 end
-# For the moment making this a separate method
+# For the moment making this a separate method for cohort roll_call
 def cohort_call(cohort)
   puts "The students of Villains Academy".center(50)
   puts "-------------".center(50)
   cohort.each { |student| puts "#{student[:name]} (#{student[:cohort]} cohort)".center(50)}
-  cohort.count == 1 ? (puts "Overall, we have #{cohort.count} great student in this cohort\n") : (puts "Overall, we have #{cohort.count} great students in this cohort\n")
+  cohort.count == 1 ? (puts "Overall, we have #{cohort.count} great student in this cohort") : (puts "Overall, we have #{cohort.count} great students in this cohort")
 end
 
 # pulling a list of current cohorts
@@ -80,8 +85,7 @@ end
 
 # showing the students in a selected cohort
 def students_in_cohort
-  puts "Which cohort would you like to view?"
-  input = gets.chomp
+  input = question("Which cohort would you like to view?")
   cohort_count = 0
   cohort_array = Array.new { [] }
   @students.each do |student|
@@ -93,8 +97,8 @@ end
 
 # saving student information
 def save_students
-  puts "Which file would you like to save to?"
-  filename = gets.chomp
+  filename = question("Which file would you like to save to?")
+  (puts "That file does not exist"; filename = question("Which file would you like to save to?")) while !File.exist?(filename)
   # open the file for writing + do |file| end to auto close
   file = CSV.open(filename, "w") {|csv|
   # iterate over the array of students
@@ -106,10 +110,9 @@ end
 
 # loading student information from any file - the default being students.csv
 def load_students(filename = "students.csv")
-  puts "Which file would you like to load?"
-  filename = gets.chomp
-  filename = "students.csv" if filename.empty?
-  (puts "this file does not exist\nWhich file would you like to load?"; filename = gets.chomp) while !File.exist?(filename)
+  filename = question("Which file would you like to load?")
+  filename = "students.csv" if filename == "n/a"
+  (puts "That file does not exist"; filename = question("Which file would you like to load?")) while !File.exist?(filename)
   # do |file| end to auto close
   file = CSV.foreach(filename) {|csv| (name, cohort = csv; student_data(name, cohort))}
   puts "Your student list has loaded"
