@@ -45,7 +45,7 @@ def input_students
     puts "Please enter a cohort"
     cohort = STDIN.gets.chomp
     student_data(name, cohort)
-    puts "Now we have #{@students.count} students"
+      students.count == 1 ? (puts "Now we have #{students.count} student") : (puts "Now we have #{students.count} students")
   end
 end
 
@@ -59,14 +59,14 @@ def roll_call
   puts "The students of Villains Academy".center(50)
   puts "-------------".center(50)
   @students.each { |student| puts "#{student[:name]} (#{student[:cohort]} cohort)".center(50)}
-  puts "Overall, we have #{@students.count} great students".center(50)
+  @students.count == 1 ? (puts "Overall, we have #{@students.count} great student\n") : (puts "Overall, we have #{@students.count} great students\n")
 end
 # For the moment making this a separate method
 def cohort_call(cohort)
   puts "The students of Villains Academy".center(50)
   puts "-------------".center(50)
   cohort.each { |student| puts "#{student[:name]} (#{student[:cohort]} cohort)".center(50)}
-  puts "Overall, we have #{cohort.count} great students in this cohort".center(50)
+  cohort.count == 1 ? (puts "Overall, we have #{cohort.count} great student in this cohort\n") : (puts "Overall, we have #{cohort.count} great students in this cohort\n")
 end
 
 # pulling a list of current cohorts
@@ -111,7 +111,7 @@ def load_students(filename = "students.csv")
   filename = "students.csv" if filename.empty?
   (puts "this file does not exist\nWhich file would you like to load?"; filename = gets.chomp) while !File.exist?(filename)
   # do |file| end to auto close
-  file = CSV.foreach(filename) {|csv| (name, cohort = csv; student_data(name))}
+  file = CSV.foreach(filename) {|csv| (name, cohort = csv; student_data(name, cohort))}
   puts "Your student list has loaded"
 end
 
