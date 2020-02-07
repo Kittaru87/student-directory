@@ -11,8 +11,9 @@ def print_menu
   puts "1. Input the students"
   puts "2. Show all the students"
   puts "3. Show the students by cohort"
-  puts "4. Save the student list"
-  puts "5. Load the student list"
+  puts "4. Correct a typo"
+  puts "5. Save the student list"
+  puts "6. Load the student list"
   puts "9. Exit"
 end
 
@@ -28,8 +29,9 @@ def process(selection)
   when "1" then input_students
   when "2" then roll_call
   when "3" then cohort_list; students_in_cohort
-  when "4" then save_students
-  when "5" then load_students
+  when "4" then typo
+  when "5" then save_students
+  when "6" then load_students
   when "9" then exit
   else
     puts "I don't know what you meant, try again"
@@ -44,6 +46,7 @@ def question(string)
   return reply
 end
 
+# inputting student information
 def input_students
   while true do
     name = question("Please enter the names of the students\nTo finish, just hit return twice")
@@ -73,6 +76,12 @@ def cohort_call(cohort)
   cohort.each { |student| puts "#{student[:name]} (#{student[:cohort]} cohort)".center(50)}
   cohort.count == 1 ? (puts "Overall, we have #{cohort.count} great student in this cohort") : (puts "Overall, we have #{cohort.count} great students in this cohort")
 end
+#prints a single student's details with a centered layour
+def print_single(student)
+  puts "#{student[:name]}".center(50)
+  puts "(#{student[:cohort]} cohort)".center(50)
+  puts "\n"
+end
 
 # pulling a list of current cohorts
 def cohort_list
@@ -95,16 +104,34 @@ def students_in_cohort
   cohort_array
 end
 
+# typo method
+def typo
+  student_info = question("Which student's information do you want to correct?")
+  while true do
+    break if student_info == "n/a"
+    @students.each_with_index do |student, index|
+      if student_info == student[:name]
+        print_single(student)
+        category_info = question("\nWhat category do you want to change?")
+        student.each do |key, value|
+          if category_info.to_sym == key
+            correction = question("Enter correction")
+            student[key] = correction
+            print_single(student)
+          end
+        end
+      end
+      student_info = question("Which student's information do you want to correct?")
+    end
+  end
+end
+
+
 # saving student information
 def save_students
   filename = question("Which file would you like to save to?")
   (puts "That file does not exist"; filename = question("Which file would you like to save to?")) while !File.exist?(filename)
-  # open the file for writing + do |file| end to auto close
-  file = CSV.open(filename, "w") {|csv|
-  # iterate over the array of students
-  # using csv class to push data into file in the correct format automatically
-    @students.each {|student| csv << [student[:name], student[:cohort]]}
-  }
+  file = CSV.open(filename, "w") {|csv| @students.each {|student| csv << [student[:name], student[:cohort]]}}
   puts "Your students have been saved"
 end
 
@@ -113,15 +140,13 @@ def load_students(filename = "students.csv")
   filename = question("Which file would you like to load?")
   filename = "students.csv" if filename == "n/a"
   (puts "That file does not exist"; filename = question("Which file would you like to load?")) while !File.exist?(filename)
-  # do |file| end to auto close
   file = CSV.foreach(filename) {|csv| (name, cohort = csv; student_data(name, cohort))}
   puts "Your student list has loaded"
 end
 
 def try_load_students
-  filename = ARGV.first # first argument from the command line
-  filename = "students.csv" if filename.nil? # get out of the method if it isn't given
-  #refactoring this if/else statement
+  filename = ARGV.first
+  filename = "students.csv" if filename.nil?
   File.exists?(filename) ? (load_students(filename); puts "Loaded #{@students.count} from #{filename}") : (puts "Sorry, #{filename} doesn't exist."; exit)
 end
 
