@@ -64,14 +64,14 @@ def save_students
   puts "Which file would you like to save to?"
   filename = gets.chomp
   # open the file for writing + do |file| end to auto close
-  file = File.open(filename, "w") do |file|
+  file = File.open(filename, "w") {|file|
   # iterate over the array of students
     @students.each do |student|
       student_data = [student[:name], student[:cohort]]
       csv_line = student_data.join(",")
       file.puts csv_line
     end
-  end
+  }
   puts "Your students have been saved"
 end
 
@@ -82,10 +82,9 @@ def load_students(filename = "students.csv")
   filename = "students.csv" if filename.empty?
   (puts "this file does not exist\nWhich file would you like to load?"; filename = gets.chomp) while !File.exist?(filename)
   # do |file| end to auto close
-  file = File.open(filename, "r") do |file|
-  #refactored this each method to go onto one line
+  file = File.open(filename, "r") {|file|
     file.readlines.each {|line| (name, cohort = line.chomp.split(","); student_data(name))}
-  end
+  }
   puts "Your student list has loaded"
 end
 
@@ -96,5 +95,5 @@ def try_load_students
   File.exists?(filename) ? (load_students(filename); puts "Loaded #{@students.count} from #{filename}") : (puts "Sorry, #{filename} doesn't exist."; exit)
 end
 
-#try_load_students
+try_load_students
 interactive_menu
