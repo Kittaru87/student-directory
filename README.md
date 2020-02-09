@@ -31,7 +31,7 @@ This app will run through the command line or terminal. It will automatically tr
 * **example_9.rb** = adds singular or plural answers to number of students
 * **example_10.rb** = discusses other methods of chomping off the last character after getting input
 * **example_11.rb** = correcting the typos from the code
-* **example_12.rb** = adding an exit if the input is empty + refactoring of code *[Printing using cohorts and extra details (using example_5 and example_8 as starting point) - continuing to play around with this version of the code]*
+* **example_12.rb** = adding an exit if the input is empty + refactoring of code
 * **example_13.rb** = adding an interactive menu for input/printing students, saving, loading and preloading options
 * **example_14.rb** = method for adding student data to students array
 * **example_15.rb** = loads students.csv by default if no file given at start-up
