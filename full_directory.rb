@@ -33,7 +33,7 @@ def process(selection)
   when "4" then letter_list; which_letter
   when "5" then typo
   when "6" then save_students
-  when "7" then load_students
+  when "7" then find_file; load_students(filename = "students.csv")
   when "9" then exit
   else
     puts "I don't know what you meant, try again"
@@ -68,19 +68,18 @@ end
 def roll_call
   puts "The students of Villains Academy".center(50)
   puts "-------------".center(50)
-  @students.each_with_index { |student, index| print_single(student) }
+  @students.each_with_index { |student, index| puts "#{index+1}".center(50); print_single(student) }
   @students.count == 1 ? (puts "Overall, we have #{@students.count} great student") : (puts "Overall, we have #{@students.count} great students")
 end
 # For the moment making this a separate method for cohort roll_call
 def cohort_call(cohort)
   puts "The students of Villains Academy".center(50)
   puts "-------------".center(50)
-  cohort.each_with_index { |student, index| print_single(student) }
+  cohort.each_with_index { |student, index| puts "#{index+1}".center(50); print_single(student) }
   cohort.count == 1 ? (puts "Overall, we have #{cohort.count} great student in this cohort") : (puts "Overall, we have #{cohort.count} great students in this cohort")
 end
 #prints a single student's details with a centered layour
 def print_single(student)
-  puts "#{index+1}".center(50)
   puts "#{student[:name]}".center(50)
   puts "(#{student[:cohort]} cohort)".center(50)
 end
@@ -152,19 +151,25 @@ def save_students
 end
 
 # loading student information from any file - the default being students.csv
-def load_students(filename = "students.csv")
+def find_file(filename = "students.csv")
   filename = question("Which file would you like to load?")
-  filename = "students.csv" if filename == "n/a"
+  break if filename == "n/a"
   (puts "That file does not exist"; filename = question("Which file would you like to load?")) while !File.exist?(filename)
+  return filename
+end
+
+# splitting load_file method so it works properly with try_load_students method
+def load_students(filename = "students.csv")
   file = CSV.foreach(filename) {|csv| (name, cohort = csv; student_data(name, cohort))}
   puts "Your student list has loaded"
 end
 
+# auto load a file
 def try_load_students
   filename = ARGV.first
   filename = "students.csv" if filename.nil?
   File.exists?(filename) ? (load_students(filename); puts "Loaded #{@students.count} from #{filename}") : (puts "Sorry, #{filename} doesn't exist."; exit)
 end
 
-#try_load_students
+try_load_students
 interactive_menu
