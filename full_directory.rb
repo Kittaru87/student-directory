@@ -28,7 +28,7 @@ end
 def process(selection)
   case selection
   when "1" then input_students
-  when "2" then roll_call
+  when "2" then roll_call(@students)
   when "3" then cohort_list; students_in_cohort
   when "4" then letter_list; which_letter
   when "5" then typo
@@ -64,21 +64,15 @@ def student_data(name, cohort)
   @students << {name: name, cohort: cohort}
 end
 
-# combined the three methods into 1, seeing as we were calling them all at the same time anyway
-def roll_call
+# calling the list of students and counting how many there are - used for both all students and cohort list
+def roll_call(students)
   puts "The students of Villains Academy".center(50)
   puts "-------------".center(50)
-  @students.each_with_index { |student, index| puts "#{index+1}".center(50); print_single(student) }
-  @students.count == 1 ? (puts "Overall, we have #{@students.count} great student") : (puts "Overall, we have #{@students.count} great students")
+  students.each_with_index { |student, index| puts "#{index+1}".center(50); print_single(student) }
+  students.count == 1 ? (puts "\nOverall, we have #{students.count} great student") : (puts "\nOverall, we have #{students.count} great students")
 end
-# For the moment making this a separate method for cohort roll_call
-def cohort_call(cohort)
-  puts "The students of Villains Academy".center(50)
-  puts "-------------".center(50)
-  cohort.each_with_index { |student, index| puts "#{index+1}".center(50); print_single(student) }
-  cohort.count == 1 ? (puts "Overall, we have #{cohort.count} great student in this cohort") : (puts "Overall, we have #{cohort.count} great students in this cohort")
-end
-#prints a single student's details with a centered layour
+
+# prints a single student's details with a centered layour
 def print_single(student)
   puts "#{student[:name]}".center(50)
   puts "(#{student[:cohort]} cohort)".center(50)
@@ -108,7 +102,7 @@ def students_in_cohort
   @students.each do |student|
     student.each { |key, value| (cohort_count += 1; cohort_array << student ) if value == input }
   end
-  cohort_call(cohort_array)
+  roll_call(cohort_array)
   cohort_array
 end
 
@@ -147,7 +141,6 @@ def typo
     end
   end
 end
-
 
 # saving student information
 def save_students
