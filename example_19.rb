@@ -95,5 +95,5 @@ def try_load_students
   File.exists?(filename) ? (load_students(filename); puts "Loaded #{@students.count} from #{filename}") : (puts "Sorry, #{filename} doesn't exist."; exit)
 end
 
-try_load_students
+#try_load_students
 interactive_menu
