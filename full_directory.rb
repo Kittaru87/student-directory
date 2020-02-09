@@ -84,22 +84,20 @@ def print_single(student)
   puts "(#{student[:cohort]} cohort)".center(50)
 end
 
-# pulling a list of current cohorts
+# pulling a list of current cohorts in correct month order
 def cohort_list
-  month_map = { "January": 1, "February": 2, "March": 3, "April": 4,
-    "May": 5, "June": 6, "July": 7, "August": 8, "September": 9,
-    "October": 10, "November": 11, "December": 12 }
+  months = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"]
   cohort_list = []
   @students.each {|student| cohort_list << student[:cohort]}
   current_cohorts = cohort_list.uniq
   puts "Current cohorts:"
+  mapped_index = []
   current_cohorts.each do |cohort|
-    month_map.each do |month, value|
-      if cohort == month
-        current_cohorts.sort_by(value)
-      end
-    end
+    months.each_with_index { |month, index| mapped_index << index if cohort == month }
   end
+  sorted_months = mapped_index.sort
+  sorted_months.each { |number| puts months[number] }
 end
 
 # showing the students in a selected cohort
