@@ -56,53 +56,6 @@ def print_footer(students)
   students.count == 1 ? (puts "Overall, we have #{students.count} great student in this cohort\n") : (puts "Overall, we have #{students.count} great students in this cohort\n")
 end
 
-# pulling a list of current cohorts
-def cohort_list(students)
-    cohort_list = []
-    students.each {|student| cohort_list << student[:cohort]}
-    current_cohorts = cohort_list.uniq
-    puts "Current cohorts:"
-    current_cohorts.each {|cohort| puts cohort}
-end
-
-# showing the students in a selected cohort
-def students_in_cohort(students)
-  input = question("Which cohort would you like to view?")
-  cohort_count = 0
-  cohort_array = Array.new { [] }
-  students.each do |student|
-    student.each { |key, value| (cohort_count += 1; cohort_array << student ) if value == input }
-  end
-  roll_call(cohort_array)
-  cohort_array
-end
-
-# typo method
-def typo(cohorts)
-  input = question("Is all the information accurate? Y/N")
-  while true do
-    # if the info is correct, print out list again
-    (roll_call(cohorts); break) if input == "Y"
-    if input == "N"
-      student_info = question("Which student's information do you want to correct?")
-      cohorts.each_with_index do |student, index|
-        if student_info == student[:name]
-        print_single(student)
-        category_info = question("What category do you want to change - name, cohort, country, height or hobbies?")
-        student.each do |key, value|
-          if category_info.to_sym == key
-            correction = question("Enter correction")
-            student[key] = correction
-            print_single(student)
-          end
-        end
-        end
-      end
-    input = question("\nIs all the information accurate? Y/N")
-    end
-  end
-end
-
 # printing the heading/student list and footer in one method
 def roll_call(students)
   print_header
@@ -111,6 +64,4 @@ def roll_call(students)
 end
 
 students = input_students
-cohort_list(students)
-cohorts = students_in_cohort(students)
-typo(cohorts)
+roll_call(students)
