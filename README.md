@@ -18,7 +18,7 @@ This app will run through the command line or terminal. It will automatically tr
 * Ruby
 
 #### Full list of files ####
-* **full_directory** = final fully functional command line app pulling together various aspects of the previous exercises to create a fully functioning directory with a number of user options
+* **full_directory** = final fully functional command line app pulling together various aspects of the previous exercises (see below) to create a student directory with a number of user options
 
 * **directory.rb** = The fully functional command line app (no frills)
 * **example_1.rb** = modifies the program to number the students
