@@ -55,7 +55,7 @@ def input_students
     break if name == "n/a"
     cohort = question("Please enter a cohort")
     student_data(name, cohort)
-      @students.count == 1 ? (puts "Now we have #{@students.count} student") : (puts "Now we have #{@students.count} students")
+    @students.count == 1 ? (puts "Now we have #{@students.count} student") : (puts "Now we have #{@students.count} students")
   end
 end
 
@@ -68,14 +68,15 @@ end
 def roll_call(students)
   puts "The students of Villains Academy".center(50)
   puts "-------------".center(50)
-  students.each_with_index { |student, index| puts "#{index+1}".center(50); print_single(student) }
-  students.count == 1 ? (puts "\nOverall, we have #{students.count} great student") : (puts "\nOverall, we have #{students.count} great students")
+  students.each_with_index {|student, index| puts "#{index+1}".center(50); print_single(student) }
+  students.count == 1 ? (puts "Overall, we have #{students.count} great student") : (puts "Overall, we have #{students.count} great students")
 end
 
 # prints a single student's details with a centered layour
 def print_single(student)
   puts "#{student[:name]}".center(50)
   puts "(#{student[:cohort]} cohort)".center(50)
+  puts "\n"
 end
 
 # pulling a list of current cohorts in correct month order
@@ -87,21 +88,16 @@ def cohort_list
   current_cohorts = cohort_list.uniq
   puts "Current cohorts:"
   mapped_index = []
-  current_cohorts.each do |cohort|
-    months.each_with_index { |month, index| mapped_index << index if cohort == month }
-  end
+  current_cohorts.each {|cohort| months.each_with_index {|month, index| mapped_index << index if cohort == month }}
   sorted_months = mapped_index.sort
-  sorted_months.each { |number| puts months[number] }
+  sorted_months.each {|number| puts months[number] }
 end
 
 # showing the students in a selected cohort
 def students_in_cohort
   input = question("Which cohort would you like to view?")
-  cohort_count = 0
   cohort_array = Array.new { [] }
-  @students.each do |student|
-    student.each { |key, value| (cohort_count += 1; cohort_array << student ) if value == input }
-  end
+  @students.each {|student| student.each {|key, value| cohort_array << student if value == input }}
   roll_call(cohort_array)
   cohort_array
 end
@@ -129,7 +125,7 @@ def typo
     @students.each_with_index do |student, index|
       if student_info == student[:name]
         print_single(student)
-        category_info = question("\nWhat category do you want to change?")
+        category_info = question("What category do you want to change?")
         student.each do |key, value|
           if category_info.to_sym == key
             correction = question("Enter correction")
