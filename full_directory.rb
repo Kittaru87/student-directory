@@ -11,9 +11,10 @@ def print_menu
   puts "1. Input the students"
   puts "2. Show all the students"
   puts "3. Show the students by cohort"
-  puts "4. Correct a typo"
-  puts "5. Save the student list"
-  puts "6. Load the student list"
+  puts "4. Show the students by letter"
+  puts "5. Correct a typo"
+  puts "6. Save the student list"
+  puts "7. Load the student list"
   puts "9. Exit"
 end
 
@@ -29,9 +30,10 @@ def process(selection)
   when "1" then input_students
   when "2" then roll_call
   when "3" then cohort_list; students_in_cohort
-  when "4" then typo
-  when "5" then save_students
-  when "6" then load_students
+  when "4" then which_letter
+  when "5" then typo
+  when "6" then save_students
+  when "7" then load_students
   when "9" then exit
   else
     puts "I don't know what you meant, try again"
@@ -80,7 +82,6 @@ end
 def print_single(student)
   puts "#{student[:name]}".center(50)
   puts "(#{student[:cohort]} cohort)".center(50)
-  puts "\n"
 end
 
 # pulling a list of current cohorts
@@ -104,10 +105,16 @@ def students_in_cohort
   cohort_array
 end
 
+# print out students beginning with a certain letter
+def which_letter
+  letter = question("Show students beginning with [input letter]")
+  @students.each {|student| puts "#{student[:name]} (#{student[:cohort]} cohort)" if student[:name].start_with?(letter.upcase)}
+end
+
 # typo method
 def typo
-  student_info = question("Which student's information do you want to correct?")
   while true do
+    student_info = question("\nWhich student's information do you want to correct?")
     break if student_info == "n/a"
     @students.each_with_index do |student, index|
       if student_info == student[:name]
@@ -121,7 +128,6 @@ def typo
           end
         end
       end
-      student_info = question("Which student's information do you want to correct?")
     end
   end
 end
