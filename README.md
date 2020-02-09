@@ -30,6 +30,8 @@ ruby directory.rb
 * **example_19.rb** = explicit closing of files
 * **example_20.rb** = using the CSV library instead of working directly with the files
 * **example_21.rb** = short program that reads its own source code and prints the currently executed file on screen
+
+* **full_directory** = pulling together various aspects of the previous exercises to create a fully functioning directory with a number of user options
 ```
 ```
 '''
