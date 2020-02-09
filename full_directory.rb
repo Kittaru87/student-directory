@@ -12,7 +12,7 @@ def print_menu
   puts "2. Show all the students"
   puts "3. Show the students by cohort"
   puts "4. Show the students by letter"
-  puts "5. Show the students by age group"
+  puts "5. Show number of students in each age group"
   puts "6. Correct a typo"
   puts "7. Save the student list"
   puts "8. Load the student list"
@@ -57,7 +57,6 @@ def input_students
     break if name == "n/a"
     cohort = question("Please enter a cohort")
     age = question("Please enter the student's age")
-    age = age.map(&:to_i)
     student_data(name, cohort, age)
     @students.count == 1 ? (puts "Now we have #{@students.count} student") : (puts "Now we have #{@students.count} students")
   end
@@ -137,26 +136,21 @@ def age_group
 
   @students.each do |student|
     case
-    when student[:age] <= 18
+    when student[:age] < 18
       age_list[0][1] += 1
     when student[:age] <= 25
       age_list[1][1] += 1
     when student[:age] <= 35
       age_list[2][1] += 1
     when student[:age] <= 50
-      age_list[2][1] += 1
+      age_list[3][1] += 1
     when student[:age] <= 60
       age_list[4][1] += 1
     else
       age_list[5][1] += 1
     end
   end
-puts age_list
-end
-
-# Selecting an age group
-def select_age
-
+  puts age_list
 end
 
 # typo method
@@ -172,6 +166,9 @@ def typo
           if category_info.to_sym == key
             correction = question("Enter correction")
             student[key] = correction
+                if student[:age].is_a? String
+                  student[:age] = student[:age].to_i
+                end
             print_single(student)
           end
         end
