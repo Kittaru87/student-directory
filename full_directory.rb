@@ -86,11 +86,20 @@ end
 
 # pulling a list of current cohorts
 def cohort_list
-    cohort_list = []
-    @students.each {|student| cohort_list << student[:cohort]}
-    current_cohorts = cohort_list.uniq
-    puts "Current cohorts:"
-    current_cohorts.each {|cohort| puts cohort}
+  month_map = { "January": 1, "February": 2, "March": 3, "April": 4,
+    "May": 5, "June": 6, "July": 7, "August": 8, "September": 9,
+    "October": 10, "November": 11, "December": 12 }
+  cohort_list = []
+  @students.each {|student| cohort_list << student[:cohort]}
+  current_cohorts = cohort_list.uniq
+  puts "Current cohorts:"
+  current_cohorts.each do |cohort|
+    month_map.each do |month, value|
+      if cohort == month
+        current_cohorts.sort_by(value)
+      end
+    end
+  end
 end
 
 # showing the students in a selected cohort
@@ -150,10 +159,10 @@ def save_students
   puts "Your students have been saved"
 end
 
-# loading student information from any file - the default being students.csv
+# Finding the correct file to load
 def find_file(filename = "students.csv")
   filename = question("Which file would you like to load?")
-  break if filename == "n/a"
+  filename = "students.csv" if filename == "n/a"
   (puts "That file does not exist"; filename = question("Which file would you like to load?")) while !File.exist?(filename)
   return filename
 end
