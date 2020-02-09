@@ -30,7 +30,7 @@ def process(selection)
   when "1" then input_students
   when "2" then roll_call
   when "3" then cohort_list; students_in_cohort
-  when "4" then which_letter
+  when "4" then letter_list; which_letter
   when "5" then typo
   when "6" then save_students
   when "7" then load_students
@@ -68,18 +68,19 @@ end
 def roll_call
   puts "The students of Villains Academy".center(50)
   puts "-------------".center(50)
-  @students.each { |student| puts "#{student[:name]} (#{student[:cohort]} cohort)".center(50)}
+  @students.each_with_index { |student, index| print_single(student) }
   @students.count == 1 ? (puts "Overall, we have #{@students.count} great student") : (puts "Overall, we have #{@students.count} great students")
 end
 # For the moment making this a separate method for cohort roll_call
 def cohort_call(cohort)
   puts "The students of Villains Academy".center(50)
   puts "-------------".center(50)
-  cohort.each { |student| puts "#{student[:name]} (#{student[:cohort]} cohort)".center(50)}
+  cohort.each_with_index { |student, index| print_single(student) }
   cohort.count == 1 ? (puts "Overall, we have #{cohort.count} great student in this cohort") : (puts "Overall, we have #{cohort.count} great students in this cohort")
 end
 #prints a single student's details with a centered layour
 def print_single(student)
+  puts "#{index+1}".center(50)
   puts "#{student[:name]}".center(50)
   puts "(#{student[:cohort]} cohort)".center(50)
 end
@@ -105,10 +106,19 @@ def students_in_cohort
   cohort_array
 end
 
+# pulling list of available letters
+def letter_list
+    letters = []
+    @students.each {|student| letters << student[:name][0]}
+    available_letters = letters.uniq.sort
+    puts "Letters currently available:"
+    available_letters.each {|char| puts char}
+end
+
 # print out students beginning with a certain letter
 def which_letter
   letter = question("Show students beginning with [input letter]")
-  @students.each {|student| puts "#{student[:name]} (#{student[:cohort]} cohort)" if student[:name].start_with?(letter.upcase)}
+  @students.each {|student| print_single(student) if student[:name].start_with?(letter.upcase)}
 end
 
 # typo method
