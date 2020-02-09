@@ -12,9 +12,10 @@ def print_menu
   puts "2. Show all the students"
   puts "3. Show the students by cohort"
   puts "4. Show the students by letter"
-  puts "5. Correct a typo"
-  puts "6. Save the student list"
-  puts "7. Load the student list"
+  puts "5. Show the students by age group"
+  puts "6. Correct a typo"
+  puts "7. Save the student list"
+  puts "8. Load the student list"
   puts "9. Exit"
 end
 
@@ -31,9 +32,10 @@ def process(selection)
   when "2" then roll_call(@students)
   when "3" then cohort_list; students_in_cohort
   when "4" then letter_list; which_letter
-  when "5" then typo
-  when "6" then save_students
-  when "7" then find_file; load_students(filename = "students.csv")
+  when "5" then age_group
+  when "6" then typo
+  when "7" then save_students
+  when "8" then find_file; load_students(filename = "students.csv")
   when "9" then exit
   else
     puts "I don't know what you meant, try again"
@@ -55,14 +57,16 @@ def input_students
     break if name == "n/a"
     cohort = question("Please enter a cohort")
     age = question("Please enter the student's age")
+    age = age.map(&:to_i)
     student_data(name, cohort, age)
     @students.count == 1 ? (puts "Now we have #{@students.count} student") : (puts "Now we have #{@students.count} students")
   end
 end
 
-# adding data to student array
+# adding data to student array + age groups into integers
 def student_data(name, cohort, age)
   @students << {name: name, cohort: cohort, age: age}
+  @students.each {|student| student.each {|k, v| student[:age] = student[:age].to_i}}
 end
 
 # calling the list of students and counting how many there are - used for both all students and cohort list
@@ -117,6 +121,42 @@ end
 def which_letter
   letter = question("Show students beginning with [input letter]")
   @students.each {|student| print_single(student) if student[:name].start_with?(letter.upcase)}
+end
+
+# method for pulling a list of current age groups
+def age_group
+  puts "The number of students per age group:"
+  age_list = [
+  ["Under 18", 0],
+  ["18 - 25", 0],
+  ["26 - 35", 0],
+  ["36 - 50", 0],
+  ["51 - 60", 0],
+  ["61+", 0]
+]
+
+  @students.each do |student|
+    case
+    when student[:age] <= 18
+      age_list[0][1] += 1
+    when student[:age] <= 25
+      age_list[1][1] += 1
+    when student[:age] <= 35
+      age_list[2][1] += 1
+    when student[:age] <= 50
+      age_list[2][1] += 1
+    when student[:age] <= 60
+      age_list[4][1] += 1
+    else
+      age_list[5][1] += 1
+    end
+  end
+puts age_list
+end
+
+# Selecting an age group
+def select_age
+
 end
 
 # typo method
