@@ -82,9 +82,6 @@ def load_students(filename = "students.csv")
   (puts "this file does not exist\nWhich file would you like to load?"; filename = gets.chomp) while !File.exist?(filename)
   # do |file| end to auto close
   file = CSV.foreach(filename) {|csv| (name, cohort = csv; student_data(name))}
-  # .open(filename, "r") {|csv|
-  #   file.readlines.each {|line| (name, cohort = line.chomp.split(","); student_data(name))}
-  # }
   puts "Your student list has loaded"
 end
 
