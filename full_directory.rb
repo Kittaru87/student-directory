@@ -54,14 +54,15 @@ def input_students
     name = question("Please enter the names of the students\nTo finish, just hit return twice")
     break if name == "n/a"
     cohort = question("Please enter a cohort")
-    student_data(name, cohort)
+    age = question("Please enter the student's age")
+    student_data(name, cohort, age)
     @students.count == 1 ? (puts "Now we have #{@students.count} student") : (puts "Now we have #{@students.count} students")
   end
 end
 
 # adding data to student array
-def student_data(name, cohort)
-  @students << {name: name, cohort: cohort}
+def student_data(name, cohort, age)
+  @students << {name: name, cohort: cohort, age: age}
 end
 
 # calling the list of students and counting how many there are - used for both all students and cohort list
@@ -72,10 +73,11 @@ def roll_call(students)
   students.count == 1 ? (puts "Overall, we have #{students.count} great student") : (puts "Overall, we have #{students.count} great students")
 end
 
-# prints a single student's details with a centered layour
+# prints a single student's details with a centered layout
 def print_single(student)
   puts "#{student[:name]}".center(50)
   puts "(#{student[:cohort]} cohort)".center(50)
+  puts "Age: #{student[:age]}".center(50)
   puts "\n"
 end
 
@@ -120,7 +122,7 @@ end
 # typo method
 def typo
   while true do
-    student_info = question("\nWhich student's information do you want to correct?")
+    student_info = question("Which student's information do you want to correct?")
     break if student_info == "n/a"
     @students.each_with_index do |student, index|
       if student_info == student[:name]
@@ -142,7 +144,7 @@ end
 def save_students
   filename = question("Which file would you like to save to?")
   (puts "That file does not exist"; filename = question("Which file would you like to save to?")) while !File.exist?(filename)
-  file = CSV.open(filename, "w") {|csv| @students.each {|student| csv << [student[:name], student[:cohort]]}}
+  file = CSV.open(filename, "w") {|csv| @students.each {|student| csv << [student[:name], student[:cohort], student[:age]]}}
   puts "Your students have been saved"
 end
 
@@ -156,7 +158,7 @@ end
 
 # splitting load_file method so it works properly with try_load_students method
 def load_students(filename = "students.csv")
-  file = CSV.foreach(filename) {|csv| (name, cohort = csv; student_data(name, cohort))}
+  file = CSV.foreach(filename) {|csv| (name, cohort, age = csv; student_data(name, cohort, age))}
   puts "Your student list has loaded"
 end
 
