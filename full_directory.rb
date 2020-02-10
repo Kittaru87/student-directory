@@ -45,7 +45,6 @@ end
 def question(string)
   puts string
   reply = STDIN.gets.chomp
-  return "n/a" if reply == ""
   return reply
 end
 
@@ -53,7 +52,7 @@ end
 def input_students
   while true do
     name = question("Please enter the names of the students\nTo finish, just hit return twice")
-    break if name == "n/a"
+    break if name.empty?
     cohort = question("Please enter a cohort")
     age = question("Please enter the student's age")
     student_data(name, cohort, age)
@@ -71,7 +70,7 @@ end
 def roll_call(students)
   puts "The students of Villains Academy".center(50)
   puts "-------------".center(50)
-  students.each_with_index {|student, index| puts "#{index+1}".center(50); print_single(student) }
+  students.each_with_index {|student, index| puts "#{index+1}".center(50); print_single(student)}
   students.count == 1 ? (puts "Overall, we have #{students.count} great student") : (puts "Overall, we have #{students.count} great students")
 end
 
@@ -92,7 +91,7 @@ def cohort_list
   current_cohorts = cohort_list.uniq
   puts "Current cohorts:"
   mapped_index = []
-  current_cohorts.each {|cohort| months.each_with_index {|month, index| mapped_index << index if cohort == month }}
+  current_cohorts.each {|cohort| months.each_with_index {|month, index| mapped_index << index if cohort == month}}
   sorted_months = mapped_index.sort
   sorted_months.each {|number| puts months[number]}
 end
@@ -101,7 +100,7 @@ end
 def students_in_cohort
   input = question("Which cohort would you like to view?")
   cohort_array = Array.new { [] }
-  @students.each {|student| student.each {|key, value| cohort_array << student if value == input }}
+  @students.each {|student| student.each {|key, value| cohort_array << student if value == input}}
   roll_call(cohort_array)
   cohort_array
 end
@@ -110,9 +109,8 @@ end
 def letter_list
     letters = []
     @students.each {|student| letters << student[:name][0]}
-    available_letters = letters.uniq.sort
     puts "Letters currently available:"
-    available_letters.each {|char| puts char}
+    letters.uniq.sort.each{|char| puts char}
 end
 
 # print out students beginning with a certain letter
@@ -156,7 +154,7 @@ end
 def typo
   while true do
     student_info = question("Which student's information do you want to correct?")
-    break if student_info == "n/a"
+    break if student_info.empty?
     @students.each_with_index do |student, index|
       if student_info == student[:name]
         print_single(student)
@@ -185,7 +183,7 @@ end
 # Finding the correct file to load
 def find_file(filename = "students.csv")
   filename = question("Which file would you like to load?")
-  filename = "students.csv" if filename == "n/a"
+  filename = "students.csv" if filename.nil?
   (puts "That file does not exist"; filename = question("Which file would you like to load?")) while !File.exist?(filename)
   return filename
 end
