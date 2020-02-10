@@ -1,7 +1,6 @@
-# We are opening and closing the files manually. Read the documentation of
-# the File class to find out how to use a code block (do...end) to access a
-# file, so that we didn't have to close it explicitly (it will be closed
-# automatically when the block finishes). Refactor the code to use a code block.
+# Final full functional student directory with multiple user options, data correction
+# and save/load ability
+
 require "csv"
 csv = CSV.new("students.csv")
 
@@ -95,7 +94,7 @@ def cohort_list
   mapped_index = []
   current_cohorts.each {|cohort| months.each_with_index {|month, index| mapped_index << index if cohort == month }}
   sorted_months = mapped_index.sort
-  sorted_months.each {|number| puts months[number] }
+  sorted_months.each {|number| puts months[number]}
 end
 
 # showing the students in a selected cohort
@@ -126,12 +125,12 @@ end
 def age_group
   puts "The number of students per age group:"
   age_list = [
-  ["Under 18", 0],
-  ["18 - 25", 0],
-  ["26 - 35", 0],
-  ["36 - 50", 0],
-  ["51 - 60", 0],
-  ["61+", 0]
+  ["Under 18:", 0],
+  ["18 - 25:", 0],
+  ["26 - 35:", 0],
+  ["36 - 50:", 0],
+  ["51 - 60:", 0],
+  ["61+:", 0]
 ]
 
   @students.each do |student|
