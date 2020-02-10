@@ -92,8 +92,7 @@ def cohort_list
   puts "Current cohorts:"
   mapped_index = []
   current_cohorts.each {|cohort| months.each_with_index {|month, index| mapped_index << index if cohort == month}}
-  sorted_months = mapped_index.sort
-  sorted_months.each {|number| puts months[number]}
+  mapped_index.sort.each {|number| puts months[number]}
 end
 
 # showing the students in a selected cohort
