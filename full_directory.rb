@@ -65,7 +65,7 @@ end
 # adding data to student array + age groups into integers
 def student_data(name, cohort, age)
   @students << {name: name, cohort: cohort, age: age}
-  @students.each {|student| student.each {|k, v| student[:age] = student[:age].to_i}}
+  @students.each {|student| student[:age] = student[:age].to_i}
 end
 
 # calling the list of students and counting how many there are - used for both all students and cohort list
@@ -166,9 +166,7 @@ def typo
           if category_info.to_sym == key
             correction = question("Enter correction")
             student[key] = correction
-                if student[:age].is_a? String
-                  student[:age] = student[:age].to_i
-                end
+            student[:age] = student[:age].to_i if student[:age].is_a? String
             print_single(student)
           end
         end
